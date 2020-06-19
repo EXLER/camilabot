@@ -4,6 +4,7 @@ import os
 import configparser
 from datetime import datetime
 from subprocess import check_output, CalledProcessError
+from traceback import format_exc
 
 import discord
 from discord.ext import commands
@@ -48,6 +49,10 @@ class Camila(commands.Bot):
 
         self.failed_cogs = []
         self.exitcode = 0
+
+    def add_cog(self, cog):
+        super().add_cog(cog)
+        utils.log.info(f"Cog loaded: {cog.qualified_name}")
 
     def load_cogs(self):
         for extension in cogs:
@@ -94,6 +99,9 @@ class Camila(commands.Bot):
                 startup_message += "\n{}: `{}: {}`".format(*fail)
         utils.log.info(startup_message)
         await self.channels["bot"].send(startup_message)
+
+    async def on_error(self, event_method, *args, **kwargs):
+        await self.channels["bot"].send(f"Error in event: {event_method}")
 
 
 def run_bot() -> int:
