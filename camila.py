@@ -2,6 +2,7 @@
 
 import os
 import configparser
+import random
 from datetime import datetime
 from subprocess import check_output, CalledProcessError
 from traceback import format_exc
@@ -29,6 +30,7 @@ class Camila(commands.Bot):
         super().__init__(command_prefix=command_prefix, description=description)
 
         self.startup = datetime.now()
+        random.seed(self.startup)
 
         self.failed_cogs = []
         self.exitcode = 0
