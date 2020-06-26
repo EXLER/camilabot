@@ -1,5 +1,8 @@
 CREATE TABLE events
 (
-    creator_id INTEGER PRIMARY KEY,
-    desc       TEXT
+    event_id        INTEGER PRIMARY KEY AUTOINCREMENT,
+    creator_id      INTEGER,
+    event_title     TEXT,
+    event_date      TEXT,
+    event_group     TEXT
 );

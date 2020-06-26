@@ -42,6 +42,7 @@ class Music(commands.Cog):
     async def play(self, ctx, *, video):
         """Play music from a YouTube video"""
         await self.join(ctx)
+        await ctx.send("📺 Trying to get the video...")
 
         audio_info = web.youtube_download(video)
         self.voice_queues[ctx.message.guild.id].append(audio_info)

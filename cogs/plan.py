@@ -4,7 +4,7 @@ import urllib
 import discord
 from discord.ext import commands
 
-from utils import log, web
+from utils import log, validators
 
 
 class Plan(commands.Cog):
@@ -19,7 +19,7 @@ class Plan(commands.Cog):
 
     @commands.command()
     async def plan(self, ctx):
-        """Display the lesson plan for given group"""
+        """Display the lesson plan for the group represented by user's role"""
         file = None
         embed = discord.Embed()
         for role in ctx.message.author.roles:
@@ -59,14 +59,14 @@ class Plan(commands.Cog):
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def changeplan(self, ctx, group: str, link: str):
-        """Change the lesson plan for given group. Must have plan image attached.
+        """Change the lesson plan for a given group.
            choices: Informatyka, Automatyka"""
         group = group.lower()
         if group != "informatyka" and group != "automatyka":
             await ctx.send("Wybierz jedną z możliwości: informatyka, automatyka")
             return
 
-        if not web.url_validator(link):
+        if not validators.url_validator(link):
             await ctx.send("Podana wartość nie jest linkiem!")
             return
 

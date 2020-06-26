@@ -50,8 +50,8 @@ class Camila(commands.Bot):
                 self.failed_cogs.append([extension, type(e).__name__, e])
 
     async def on_ready(self):
-        self.db_connector = database.DatabaseConnector()
-        await self.db_connector.load_db(
+        self.db_holder = database.DatabaseConnector()
+        await self.db_holder.load_db(
             config["Database"]["Path"], self.loop,
         )
 
@@ -109,7 +109,7 @@ class Camila(commands.Bot):
             if not isinstance(command, str):
                 command.reset_cooldown(ctx)
             await ctx.send(
-                f"{author.mention} Unexpected exception occurred while using the command: `{command}`."
+                f"{author.mention} Unexpected exception occurred while using the `{command}` command."
             )
             log.warn(
                 f"Unexpected exception occured while using the `{command}` command: {exc}"

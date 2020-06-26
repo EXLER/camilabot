@@ -2,18 +2,8 @@ import os
 
 import discord
 import youtube_dl
-import urllib.parse
 
-from utils import log
-
-
-def url_validator(url: str) -> bool:
-    """Validate if a given string is a URL"""
-    try:
-        result = urllib.parse.urlparse(url)
-        return all([result.scheme, result.netloc, result.path])
-    except:
-        return False
+from utils import log, validators
 
 
 def youtube_download(query) -> dict:
@@ -35,13 +25,14 @@ def youtube_download(query) -> dict:
     }
 
     with youtube_dl.YoutubeDL(ytdl_opts) as ytdl:
-        if url_validator(query):
+        log.debug(f"Trying to download using query: {query}")
+        if validators.url_validator(query):
             result = ytdl.extract_info(query)
         else:
             result = ytdl.extract_info(f"ytsearch:{query}")["entries"][0]
         title = result.get("title", None)
         duration = result.get("duration", None)
-        # log.debug(f"Downloading YouTube audio, title: {title}")
+        log.debug(f"Found and downloaded: {title}")
 
     if not title:
         return None
