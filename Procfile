@@ -1,1 +1,1 @@
-worker: python camila.py
+worker: python3 camila.py
