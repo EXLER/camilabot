@@ -1,19 +1,18 @@
 #!/usr/bin/env python3
 
 import os
-import configparser
 import random
 from datetime import datetime
 from subprocess import check_output, CalledProcessError
 from traceback import format_exc
 
+from dotenv import load_dotenv
 import discord
 from discord.ext import commands
 
 from utils import log, database
 
-config = configparser.ConfigParser()
-config.read("config.ini")
+load_dotenv()
 
 cogs = []
 for file in os.listdir("cogs"):
@@ -52,7 +51,7 @@ class Camila(commands.Bot):
     async def on_ready(self):
         self.db_holder = database.DatabaseConnector()
         await self.db_holder.load_db(
-            config["Database"]["Path"], self.loop,
+            os.getenv("DATABASE_PATH"), self.loop,
         )
 
         await self.change_presence(
@@ -145,7 +144,7 @@ def run_bot() -> int:
     log.info(f"Starting Camila on commit {commit} on branch {branch}")
     bot.load_cogs()
     try:
-        bot.run(config["Secrets"]["BotToken"])
+        bot.run(os.getenv("DISCORD_BOT_TOKEN"))
     except KeyboardInterrupt:
         log.warn(f"Received keyboard interrupt. Stopping...")
 

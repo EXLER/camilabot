@@ -1,5 +1,0 @@
-[Secrets]
-BotToken = 
-
-[Database]
-Path = data/camila.sqlite

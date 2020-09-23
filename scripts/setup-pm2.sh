@@ -27,7 +27,7 @@ apt install -y nodejs
 npm install -g pm2
 
 # Run SuperCamila
-pm2 start pm2.config.json
+pm2 start ../pm2.config.json
 pm2 startup
-env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u pi --hp /home/pi
+env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u $USER --hp /home/$USER
 pm2 save
