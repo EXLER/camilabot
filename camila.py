@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+import sys
 import random
 from datetime import datetime
 from subprocess import check_output, CalledProcessError
@@ -15,7 +16,7 @@ except ImportError:
     )
     exit(0)
 
-from utils import log, database
+from utils import log, database, constants
 
 try:
     from dotenv import load_dotenv
@@ -38,8 +39,7 @@ class Camila(commands.Bot):
     def __init__(self, command_prefix, description):
         super().__init__(command_prefix=command_prefix, description=description)
 
-        self.startup = datetime.now()
-        random.seed(self.startup)
+        random.seed(random.randrange(sys.maxsize))
 
         self.failed_cogs = []
         self.exitcode = 0
@@ -61,7 +61,7 @@ class Camila(commands.Bot):
     async def on_ready(self):
         self.db_holder = database.DatabaseConnector()
         await self.db_holder.load_db(
-            os.getenv("DATABASE_PATH"), self.loop,
+            constants.DB_PATH, self.loop,
         )
 
         await self.change_presence(
