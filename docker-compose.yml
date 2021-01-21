@@ -4,6 +4,7 @@ services:
     bot:
         build: .
         command: python camila.py
+        restart: always
         volumes:
             - .:/src
             - supercamila:/src/data
