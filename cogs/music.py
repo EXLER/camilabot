@@ -255,7 +255,7 @@ class Music(commands.Cog):
     def get_voice_state(self, ctx: commands.Context):
         state = self.voice_states.get(ctx.guild.id)
 
-        if not state:
+        if not state or (state and not state.voice):
             state = VoiceState(self.bot, ctx)
             self.voice_states[ctx.guild.id] = state
 
